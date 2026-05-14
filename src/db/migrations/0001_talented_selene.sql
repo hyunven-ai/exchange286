@@ -1,0 +1,1 @@
+ALTER TABLE "exchange_rates" ADD COLUMN "currency_name" varchar(100);
