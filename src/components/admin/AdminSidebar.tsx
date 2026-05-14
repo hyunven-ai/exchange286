@@ -16,11 +16,11 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/public/ThemeToggle";
 
 const NAV_ITEMS = [
-  { href: "/admin/dashboard",      label: "Dashboard",       icon: LayoutDashboard },
-  { href: "/admin/rates",          label: "Kurs",            icon: TrendingUp      },
-  { href: "/admin/banks",          label: "Bank Mitra",      icon: Building2       },
-  { href: "/admin/hours",          label: "Jam Operasional", icon: Clock           },
-  { href: "/admin/announcements",  label: "Pengaturan",      icon: Settings        },
+  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/rates", label: "Kurs", icon: TrendingUp },
+  { href: "/admin/banks", label: "Bank Mitra", icon: Building2 },
+  { href: "/admin/hours", label: "Jam Operasional", icon: Clock },
+  { href: "/admin/announcements", label: "Pengaturan", icon: Settings },
 ];
 
 export function AdminSidebar() {
@@ -31,10 +31,10 @@ export function AdminSidebar() {
       {/* Brand */}
       <div className="flex items-center gap-3 px-4 h-14 border-b border-border">
         <Image
-          src="/logo.png"
+          src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1778774517/286logo_q9zz8x.png"
           alt="Exchange 286"
-          width={32}
-          height={32}
+          width={40}
+          height={40}
           className="rounded-full object-contain"
         />
         <div>
@@ -54,11 +54,10 @@ export function AdminSidebar() {
               key={item.href}
               href={item.href}
               id={`admin-nav-${item.href.split("/").pop()}`}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
-                isActive
-                  ? "bg-primary/10 text-primary border border-primary/20"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              }`}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${isActive
+                ? "bg-primary/10 text-primary border border-primary/20"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                }`}
             >
               <Icon className="w-4 h-4 shrink-0" />
               {item.label}

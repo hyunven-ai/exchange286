@@ -44,10 +44,10 @@ export default function AdminLoginPage() {
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-card border border-border shadow-md mb-4">
             <Image
-              src="/logo.png"
+              src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1778774517/286logo_q9zz8x.png"
               alt="Exchange 286"
-              width={64}
-              height={64}
+              width={60}
+              height={66}
               className="rounded-full object-contain"
             />
           </div>

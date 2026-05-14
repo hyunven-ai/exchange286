@@ -11,26 +11,27 @@ export default function PublicLayout({
     <div className="min-h-screen flex flex-col">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-card/90 backdrop-blur-md border-b border-border">
-        <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        {/* 3-col grid: spacer | logo center | theme toggle */}
+        <div className="max-w-2xl mx-auto px-4 h-14 grid grid-cols-[40px_1fr_40px] items-center">
+          {/* Left spacer — mirrors ThemeToggle width */}
+          <div />
+
+          {/* Logo centered */}
+          <div className="flex flex-col items-center justify-center">
             <Image
-              src="/logo.png"
+              src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1778775039/286_uryl47.png"
               alt="Exchange 286 Logo"
-              width={36}
-              height={36}
+              width={152}
+              height={38}
               className="rounded-full object-contain"
               priority
             />
-            <div>
-              <h1 className="font-bold text-base text-foreground leading-tight">
-                Exchange 286
-              </h1>
-              <p className="text-[10px] text-muted-foreground leading-tight">
-                Tukar Uang
-              </p>
-            </div>
           </div>
-          <ThemeToggle />
+
+          {/* Theme toggle right */}
+          <div className="flex justify-end">
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 

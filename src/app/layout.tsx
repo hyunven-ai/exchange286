@@ -29,6 +29,10 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     keywords: ["kurs", "valuta asing", "USD", "SAR", "THB", "exchange", "money changer"],
+    icons: {
+      icon: "https://res.cloudinary.com/dzojrrwtr/image/upload/v1778774517/286logo_q9zz8x.png",
+      apple: "https://res.cloudinary.com/dzojrrwtr/image/upload/v1778774517/286logo_q9zz8x.png",
+    },
     openGraph: {
       title,
       description,
