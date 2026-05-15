@@ -258,6 +258,7 @@ export function CurrencyCalculator({ rates, banks }: CurrencyCalculatorProps) {
 
                 {dropOpen && (
                   <div className="absolute z-20 top-full mt-1 left-0 right-0 rounded-xl border border-border bg-card shadow-xl overflow-hidden">
+                    <div className="overflow-y-auto max-h-60 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
                     {rates.map((r) => {
                       const m = CURRENCY_META[r.currencyCode];
                       return (
@@ -282,6 +283,7 @@ export function CurrencyCalculator({ rates, banks }: CurrencyCalculatorProps) {
                         </button>
                       );
                     })}
+                    </div>
                   </div>
                 )}
               </div>
