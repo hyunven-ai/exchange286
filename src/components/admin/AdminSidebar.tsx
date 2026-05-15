@@ -33,7 +33,7 @@ export function AdminSidebar() {
       {/* Brand */}
       <div className="flex items-center gap-3 px-4 h-14 border-b border-border">
         <Image
-          src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1778774517/286logo_q9zz8x.png"
+          src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1778851463/logo-286_mswyvu.png"
           alt="Exchange 286"
           width={40}
           height={40}

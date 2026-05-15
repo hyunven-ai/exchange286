@@ -19,7 +19,7 @@ export default function PublicLayout({
           {/* Logo centered */}
           <div className="flex flex-col items-center justify-center">
             <Image
-              src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1778775039/286_uryl47.png"
+              src="https://res.cloudinary.com/dzojrrwtr/image/upload/v1778851463/logo-286_mswyvu.png"
               alt="Exchange 286 Logo"
               width={152}
               height={38}
