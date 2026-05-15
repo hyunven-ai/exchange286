@@ -67,12 +67,17 @@ export function CurrencyCalculator({ rates, banks }: CurrencyCalculatorProps) {
       return;
     }
 
-    const rate =
-      direction === "sell"
-        ? parseFloat(selectedRate.sellRate) // user buys foreign → pays IDR at sell rate
-        : parseFloat(selectedRate.buyRate);  // user sells foreign → gets IDR at buy rate
-
-    setResult(num * rate);
+    if (direction === "sell") {
+      // Beli Valas: client inputs valas amount they WANT to buy → pays IDR
+      // valas × sellRate = IDR to pay
+      const rate = parseFloat(selectedRate.sellRate);
+      setResult(num * rate);
+    } else {
+      // Jual Valas: client inputs valas amount they HAVE → receives IDR
+      // valas × buyRate = IDR received
+      const rate = parseFloat(selectedRate.buyRate);
+      setResult(num * rate);
+    }
   }, [amount, selectedCode, direction, selectedRate]);
 
   useEffect(() => {
@@ -82,10 +87,15 @@ export function CurrencyCalculator({ rates, banks }: CurrencyCalculatorProps) {
   const fmt = (n: number) =>
     n.toLocaleString("id-ID", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-  const fromCurrency = direction === "sell" ? selectedCode : "IDR";
-  const toCurrency = direction === "sell" ? "IDR" : selectedCode;
-  const fromLabel = direction === "sell" ? "Saya punya" : "Saya punya (IDR)";
-  const toLabel = direction === "sell" ? "Saya terima (IDR)" : `Saya terima (${selectedCode})`;
+  // Beli Valas (sell): client inputs valas to buy → total IDR to pay
+  // Jual Valas (buy):  client inputs valas they have → IDR received
+  // Both modes: input = valas, output = IDR
+  const fromCurrency = selectedCode;
+  const toCurrency   = "IDR";
+  const fromLabel    = direction === "sell"
+    ? `Jumlah ${selectedCode} yang ingin dibeli`
+    : `Saya punya (${selectedCode})`;
+  const toLabel      = direction === "sell" ? "Total bayar (IDR)" : "Saya terima (IDR)";
 
   const activeRate = selectedRate
     ? direction === "sell"
@@ -143,7 +153,7 @@ export function CurrencyCalculator({ rates, banks }: CurrencyCalculatorProps) {
         // ── Build WhatsApp message ──────────────────────────────
         if (waNumber) {
           const tipe = direction === "sell" ? "Beli Valas" : "Jual Valas";
-          const nominalStr = `${fromCurrency} ${fmt(numAmount)}`;
+          const nominalStr = `${selectedCode} ${fmt(numAmount)}`;
           const idrStr = `IDR ${result !== null ? fmt(result) : "0"}`;
           const rateStr = `1 ${selectedCode} = IDR ${activeRate.toLocaleString("id-ID")}`;
 
@@ -154,9 +164,10 @@ export function CurrencyCalculator({ rates, banks }: CurrencyCalculatorProps) {
             `*Tipe:* ${tipe}`,
             `*Nominal:* ${nominalStr}`,
             direction === "sell"
-              ? `*Pembayaran (IDR):* ${idrStr}`
+              ? `*Total Bayar (IDR):* ${idrStr}`
               : `*Diterima (IDR):* ${idrStr}`,
             `*Rate:* ${rateStr}`,
+
             ``,
             `*Nama:* ${customerName.trim()}`,
             customerPhone.trim() ? `*No. HP:* ${customerPhone.trim()}` : "",
@@ -431,11 +442,11 @@ export function CurrencyCalculator({ rates, banks }: CurrencyCalculatorProps) {
 
                       <span className="text-muted-foreground">Nominal</span>
                       <span className="font-rate font-bold text-right">
-                        {fromCurrency} {fmt(numAmount)}
+                        {selectedCode} {fmt(numAmount)}
                       </span>
 
                       <span className="text-muted-foreground">
-                        {direction === "sell" ? "Pembayaran (IDR)" : "Diterima (IDR)"}
+                        {direction === "sell" ? "Total Bayar (IDR)" : "Diterima (IDR)"}
                       </span>
                       <span className="font-rate font-bold text-primary text-right">
                         IDR {result !== null ? fmt(result) : "—"}
@@ -623,11 +634,15 @@ export function CurrencyCalculator({ rates, banks }: CurrencyCalculatorProps) {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Nominal</span>
-                    <span className="font-rate font-bold">{fromCurrency} {fmt(numAmount)}</span>
+                    <span className="font-rate font-bold">{selectedCode} {fmt(numAmount)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Estimasi IDR</span>
-                    <span className="font-rate font-bold text-primary">IDR {result !== null ? fmt(result) : "—"}</span>
+                    <span className="text-muted-foreground">
+                      {direction === "sell" ? "Estimasi Bayar (IDR)" : "Estimasi Terima (IDR)"}
+                    </span>
+                    <span className="font-rate font-bold text-primary">
+                      IDR {result !== null ? fmt(result) : "—"}
+                    </span>
                   </div>
                 </div>
 
