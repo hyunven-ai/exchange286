@@ -11,6 +11,7 @@ import {
   Clock,
   Settings,
   LogOut,
+  ShoppingCart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/public/ThemeToggle";
@@ -19,6 +20,7 @@ const NAV_ITEMS = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/rates", label: "Kurs", icon: TrendingUp },
   { href: "/admin/banks", label: "Bank Mitra", icon: Building2 },
+  { href: "/admin/transactions", label: "Transaksi", icon: ShoppingCart },
   { href: "/admin/hours", label: "Jam Operasional", icon: Clock },
   { href: "/admin/announcements", label: "Pengaturan", icon: Settings },
 ];

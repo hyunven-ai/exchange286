@@ -9,6 +9,7 @@ import {
   integer,
   time,
 } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 
 // ── Exchange Rates ────────────────────────────────────────────────────────────
 export const exchangeRates = pgTable("exchange_rates", {
@@ -28,6 +29,8 @@ export const supportedBanks = pgTable("supported_banks", {
   id: serial("id").primaryKey(),
   bankName: varchar("bank_name", { length: 100 }).notNull(),
   bankCode: varchar("bank_code", { length: 20 }).notNull().unique(),
+  accountNumber: varchar("account_number", { length: 50 }),
+  accountName: varchar("account_name", { length: 100 }),
   isActive: boolean("is_active").notNull().default(true),
 });
 
@@ -57,9 +60,36 @@ export const users = pgTable("users", {
     .defaultNow(),
 });
 
+// ── Transactions ──────────────────────────────────────────────────────────────
+export const transactions = pgTable("transactions", {
+  id: serial("id").primaryKey(),
+  /** 'buy' = customer buys foreign currency (pays IDR) */
+  /** 'sell' = customer sells foreign currency (receives IDR) */
+  type: varchar("type", { length: 10 }).notNull(), // 'buy' | 'sell'
+  currencyCode: varchar("currency_code", { length: 3 }).notNull(),
+  amount: numeric("amount", { precision: 18, scale: 4 }).notNull(),
+  rate: numeric("rate", { precision: 12, scale: 2 }).notNull(),
+  idrAmount: numeric("idr_amount", { precision: 18, scale: 2 }).notNull(),
+  bankId: integer("bank_id"),
+  customerName: varchar("customer_name", { length: 150 }),
+  customerPhone: varchar("customer_phone", { length: 30 }),
+  notes: text("notes"),
+  status: varchar("status", { length: 20 }).notNull().default("pending"), // pending | confirmed | done | cancelled
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  processedAt: timestamp("processed_at", { withTimezone: true }),
+});
+
+export const transactionsRelations = relations(transactions, ({ one }) => ({
+  bank: one(supportedBanks, {
+    fields: [transactions.bankId],
+    references: [supportedBanks.id],
+  }),
+}));
+
 // ── Type Exports ──────────────────────────────────────────────────────────────
 export type ExchangeRate = typeof exchangeRates.$inferSelect;
 export type SupportedBank = typeof supportedBanks.$inferSelect;
 export type OperationalHour = typeof operationalHours.$inferSelect;
 export type SystemSetting = typeof systemSettings.$inferSelect;
 export type User = typeof users.$inferSelect;
+export type Transaction = typeof transactions.$inferSelect;

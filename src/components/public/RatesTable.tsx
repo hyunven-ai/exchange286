@@ -24,8 +24,8 @@ const CURRENCY_META: Record<
 
 function formatRate(value: string | number): string {
   return Number(value).toLocaleString("id-ID", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
 }
 

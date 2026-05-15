@@ -40,7 +40,7 @@ export default async function HomePage() {
         {/* Currency Calculator — directly after rates */}
         {rates.length > 0 && (
           <Suspense fallback={<Skeleton className="h-64 w-full rounded-2xl" />}>
-            <CurrencyCalculator rates={rates} />
+            <CurrencyCalculator rates={rates} banks={banks} />
           </Suspense>
         )}
 

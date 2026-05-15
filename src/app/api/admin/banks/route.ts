@@ -17,10 +17,16 @@ export async function POST(req: Request) {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const { bankName, bankCode } = body;
+  const { bankName, bankCode, accountNumber, accountName } = body;
   if (!bankName || !bankCode) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
-  const [bank] = await db.insert(supportedBanks).values({ bankName, bankCode, isActive: true }).returning();
+  const [bank] = await db.insert(supportedBanks).values({
+    bankName,
+    bankCode,
+    accountNumber: accountNumber ?? null,
+    accountName: accountName ?? null,
+    isActive: true,
+  }).returning();
   revalidateTag("banks", "max");
   return NextResponse.json(bank, { status: 201 });
 }
@@ -30,10 +36,10 @@ export async function PUT(req: Request) {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const { id, bankName, bankCode, isActive } = body;
+  const { id, bankName, bankCode, accountNumber, accountName, isActive } = body;
   if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
 
-  await db.update(supportedBanks).set({ bankName, bankCode, isActive }).where(eq(supportedBanks.id, id));
+  await db.update(supportedBanks).set({ bankName, bankCode, accountNumber, accountName, isActive }).where(eq(supportedBanks.id, id));
   revalidateTag("banks", "max");
   return NextResponse.json({ success: true });
 }
